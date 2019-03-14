@@ -1,0 +1,80 @@
+﻿<Window x:Class="Encryptor.View.EncryptoView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:Encryptor.ViewModel"
+        mc:Ignorable="d"
+        Title="Outil de décryption" Height="350" Width="600">
+  
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="Background"
+                    Value="#003DA5" />
+            <Setter Property="Width"
+                    Value="75" />
+            <Setter Property="Height"
+                    Value="30" />
+            <Setter Property="Focusable"
+                    Value="False" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Left" />
+            <Setter Property="VerticalAlignment"
+                    Value="Top" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Button Content="Encrypter" Grid.Row="3" Grid.Column="2"                                 
+                Command="{Binding OnEncrypt}"/>
+        <Button Content="Décrypter" Grid.Row="3" Grid.Column="1" 
+                Command="{Binding OnDecrypt}"/>
+        <Button Content="Effacer la liste"  Grid.Row="3" Grid.Column="4"  
+                Width="90"
+                Command="{Binding OnClearCache}"/>
+        <ListView HorizontalAlignment="Left" Height="132"  VerticalAlignment="Top" Width="384" x:Name="listeFichier"
+                  ItemsSource="{Binding ListeFichier}"  Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Column="1" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel LastChildFill="True">
+                        <StackPanel DockPanel.Dock="Right"
+                                    Orientation="Horizontal">
+                            <DockPanel>
+                                <TextBlock Text="{Binding Name}" Margin="0 0 5 0"/>
+                            </DockPanel>
+                            <CheckBox IsChecked="{Binding IsChecked}" Command="{Binding ElementName=listeFichier, Path=DataContext.OnSupprimerFichier}" CommandParameter="{Binding .}" Margin="5"></CheckBox>
+                            <Button Content="X" Foreground="White" Background="Crimson" Width="15" Height="20"
+                                    Command="{Binding ElementName=listeFichier, Path=DataContext.OnSupprimerFichier}"
+                                    CommandParameter="{Binding .}"/>
+                        </StackPanel>
+                        <WrapPanel DockPanel.Dock="Left">
+                            <TextBlock Text="Fichier: " />
+                            <TextBlock Text="{Binding Fichier}"
+                                       FontWeight="Bold" />
+                        </WrapPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Content="Parcourir"  Grid.Row="1" Grid.Column="6" 
+                Command="{Binding OnParcourir}"/>
+    </Grid>
+</Window>
